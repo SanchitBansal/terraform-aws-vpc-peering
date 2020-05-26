@@ -41,15 +41,15 @@ data "aws_route_tables" "accepter_all_rts" {
 data "aws_subnet" "accepter" {
   provider = "aws.peer"
   vpc_id = "${data.aws_vpc.peer.id}"
-  availability_zone = "${element(var.availability_zones, count.index)}"
-  tags = "${var.accepter_subnet_tags[floor(count.index/length(var.availability_zones))]}"
+  availability_zone = "${element(var.peer_availability_zones, count.index)}"
+  tags = "${var.accepter_subnet_tags[floor(count.index/length(var.peer_availability_zones))]}"
 
-  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" ? length(var.availability_zones) * length(var.accepter_subnet_tags) : 0}"
+  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" ? length(var.peer_availability_zones) * length(var.accepter_subnet_tags) : 0}"
 }
 
 data "aws_route_table" "accepter" {
   provider = "aws.peer"
   subnet_id = "${data.aws_subnet.accepter.*.id[count.index]}"
 
-  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" ? length(var.availability_zones) * length(var.accepter_subnet_tags) : 0}"
+  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" ? length(var.peer_availability_zones) * length(var.accepter_subnet_tags) : 0}"
 }

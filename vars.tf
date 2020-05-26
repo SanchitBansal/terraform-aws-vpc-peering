@@ -22,6 +22,12 @@ variable "availability_zones" {
   default     = ["ap-south-1a", "ap-south-1b"]
 }
 
+variable "peer_availability_zones" {
+  description = "List of availability zones of accepter account"
+  type        = "list"
+  default = ["ap-south-1a", "ap-south-1b"]
+}
+
 variable "accepter_subnet_tags" {
   description = "list of subnets for which vpc peering to be done"
   type        = "list"

@@ -63,11 +63,11 @@ resource "aws_route" "internal_peering_with_requester_accepter_complete_vpc_rout
  */
 
 resource "aws_route" "internal_peering_with_requester_complete_vpc_accepter_limited_routes" {
-  route_table_id            = "${data.aws_route_tables.requester_all_rts.ids[floor(count.index/(length(var.availability_zones) * length(var.accepter_subnet_tags)))]}"
-  destination_cidr_block    = "${data.aws_subnet.accepter.*.cidr_block[count.index % (length(var.availability_zones) * length(var.accepter_subnet_tags))]}"
+  route_table_id            = "${data.aws_route_tables.requester_all_rts.ids[floor(count.index/(length(var.peer_availability_zones) * length(var.accepter_subnet_tags)))]}"
+  destination_cidr_block    = "${data.aws_subnet.accepter.*.cidr_block[count.index % (length(var.peer_availability_zones) * length(var.accepter_subnet_tags))]}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.internal.id}"
 
-  count = "${var.auto_accept == "true" && var.requester_route_complete_vpc == "true" && var.accepter_route_complete_vpc == "false" ? length(data.aws_route_tables.requester_all_rts.ids) * length(var.availability_zones) * length(var.accepter_subnet_tags) : 0}"
+  count = "${var.auto_accept == "true" && var.requester_route_complete_vpc == "true" && var.accepter_route_complete_vpc == "false" ? length(data.aws_route_tables.requester_all_rts.ids) * length(var.peer_availability_zones) * length(var.accepter_subnet_tags) : 0}"
 }
 
 /**
@@ -87,11 +87,11 @@ resource "aws_route" "internal_peering_with_requester_limited_accepter_complete_
  */
 
 resource "aws_route" "internal_peering_with_requester_accepter_limited_routes" {
-  route_table_id            = "${data.aws_route_table.requester.*.id[floor(count.index/(length(var.availability_zones) * length(var.accepter_subnet_tags)))]}"
-  destination_cidr_block    = "${data.aws_subnet.accepter.*.cidr_block[count.index % (length(var.availability_zones) * length(var.accepter_subnet_tags))]}"
+  route_table_id            = "${data.aws_route_table.requester.*.id[floor(count.index/(length(var.peer_availability_zones) * length(var.accepter_subnet_tags)))]}"
+  destination_cidr_block    = "${data.aws_subnet.accepter.*.cidr_block[count.index % (length(var.peer_availability_zones) * length(var.accepter_subnet_tags))]}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.internal.id}"
 
-  count = "${var.auto_accept == "true" && var.requester_route_complete_vpc == "false" && var.accepter_route_complete_vpc == "false" ? length(var.availability_zones) * length(var.requester_subnet_tags) * length(var.accepter_subnet_tags) * length(var.availability_zones) : 0}"
+  count = "${var.auto_accept == "true" && var.requester_route_complete_vpc == "false" && var.accepter_route_complete_vpc == "false" ? length(var.availability_zones) * length(var.requester_subnet_tags) * length(var.accepter_subnet_tags) * length(var.peer_availability_zones) : 0}"
 }
 
 

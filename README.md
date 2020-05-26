@@ -9,7 +9,7 @@ This is Terraform module to create AWS VPC Peering with auto acceptance and rout
 
 Following are different usage examples of this module with required variables for it.
 
-#### VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Route complete VPC CIDR on both sides
+## VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Route complete VPC CIDR on both sides
 
 ```hcl
 module "vpc_peering" {
@@ -38,7 +38,7 @@ module "vpc_peering" {
   auto_accept = "true"
 ```
 
-#### VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect complete VPC of requester with specific subnet of accepter
+## VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect complete VPC of requester with specific subnet of accepter
 
 ```hcl
 module "vpc_peering" {
@@ -79,7 +79,7 @@ module "vpc_peering" {
   auto_accept = "true"
 ```
 
-#### VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect specific subnet of requester with complete VPC of accepter
+## VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect specific subnet of requester with complete VPC of accepter
 
 ```hcl
 module "vpc_peering" {
@@ -120,7 +120,7 @@ module "vpc_peering" {
   auto_accept = "true"
 ```
 
-#### VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect specific subnet of requester with specific subnet of accepter
+## VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect specific subnet of requester with specific subnet of accepter
 
 ```hcl
 module "vpc_peering" {
@@ -172,7 +172,60 @@ module "vpc_peering" {
   auto_accept = "true"
 ```
 
-#### VPCs in separate AWS accounts in same/different region, where only requester VPC is managed using Terraform. Connect specific subnet of requester with accepter
+## VPCs in separate AWS accounts in different region, both managed by same team using Terraform. Connect specific subnet of requester with specific subnet of accepter
+
+```hcl
+module "vpc_peering" {
+  source = "github.com/SanchitBansal/terraform-aws-vpc-peering.git?ref=master"
+
+  profile = "nonprod"
+  peer_profile = "prod"
+  peer_region = "ap-southeast-1"
+  peer_availability_zones = ["ap-southeast-1a", "ap-southeast-1bs"]
+
+  requester_vpc_tags = {
+    environment = "test"
+  }
+
+  accepter_vpc_tags = {
+    environment = "prod"
+  }
+
+  requester_route_complete_vpc = "false"
+  accepter_route_complete_vpc = "false"
+
+  requester_subnet_tags = [
+    {
+      environment = "test"
+      role = "app"
+    },
+    {
+      environment = "test"
+      role = "infra"
+    }
+  ]
+
+  accepter_subnet_tags = [
+    {
+      environment = "prod"
+      role = "infra"
+    },
+    {
+      environment = "prod"
+      role = "db"
+    }
+  ]
+
+  custom_tags = {
+    businessunit = "techteam"
+    organization "github"
+  }
+
+  peering_name = "Peering between test and prod VPC"
+  auto_accept = "true"
+```
+
+## VPCs in separate AWS accounts in same/different region, where only requester VPC is managed using Terraform. Connect specific subnet of requester with accepter
 
 ```hcl
 module "vpc_peering" {
@@ -213,6 +266,6 @@ module "vpc_peering" {
   auto_accept = "false"
 ```
 
-I have many other [Terraform modules](https://github.com/SanchitBansal?tab=repositories&q=terraform&type=&language=) that are open source. Check them out!
+I have made many other [Terraform modules](https://github.com/SanchitBansal?tab=repositories&q=terraform&type=&language=) that are open source. Check them out!
 
 **I will keep enhancing it if found any issues or any feature request from your side**

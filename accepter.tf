@@ -51,7 +51,7 @@ resource "aws_route" "internal_peering_with_accepter_limted_requester_complete_v
   destination_cidr_block    = "${data.aws_vpc.requester.cidr_block_associations.0.cidr_block}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.internal.id}"
 
-  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" && var.requester_route_complete_vpc == "true" ? length(var.availability_zones) * length(var.accepter_subnet_tags) : 0}"
+  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" && var.requester_route_complete_vpc == "true" ? length(var.peer_availability_zones) * length(var.accepter_subnet_tags) : 0}"
 }
 
 /**
@@ -64,5 +64,5 @@ resource "aws_route" "internal_peering_with_accepter_requester_limited_routes" {
   destination_cidr_block    = "${data.aws_subnet.requester.*.cidr_block[count.index % (length(var.availability_zones) * length(var.requester_subnet_tags))]}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.internal.id}"
 
-  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" && var.requester_route_complete_vpc == "false" ? length(var.availability_zones) * length(var.accepter_subnet_tags) * length(var.availability_zones) * length(var.requester_subnet_tags) : 0}"
+  count = "${var.auto_accept == "true" && var.accepter_route_complete_vpc == "false" && var.requester_route_complete_vpc == "false" ? length(var.peer_availability_zones) * length(var.accepter_subnet_tags) * length(var.availability_zones) * length(var.requester_subnet_tags) : 0}"
 }
