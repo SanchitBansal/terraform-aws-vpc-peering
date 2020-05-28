@@ -36,6 +36,7 @@ module "vpc_peering" {
   }
 
   auto_accept = "true"
+  }
 ```
 
 ## VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect complete VPC of requester with specific subnet of accepter
@@ -77,6 +78,7 @@ module "vpc_peering" {
 
   peering_name = "Peering between test and prod VPC"
   auto_accept = "true"
+  }
 ```
 
 ## VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect specific subnet of requester with complete VPC of accepter
@@ -118,6 +120,7 @@ module "vpc_peering" {
 
   peering_name = "Peering between test and prod VPC"
   auto_accept = "true"
+  }
 ```
 
 ## VPCs in separate/same AWS accounts in same region, both managed by same team using Terraform. Connect specific subnet of requester with specific subnet of accepter
@@ -170,6 +173,7 @@ module "vpc_peering" {
 
   peering_name = "Peering between test and prod VPC"
   auto_accept = "true"
+  }
 ```
 
 ## VPCs in separate AWS accounts in different region, both managed by same team using Terraform. Connect specific subnet of requester with specific subnet of accepter
@@ -223,6 +227,7 @@ module "vpc_peering" {
 
   peering_name = "Peering between test and prod VPC"
   auto_accept = "true"
+  }
 ```
 
 ## VPCs in separate AWS accounts in same/different region, where only requester VPC is managed using Terraform. Connect specific subnet of requester with accepter
@@ -264,6 +269,7 @@ module "vpc_peering" {
 
   peering_name = "Peering between test and prod VPC"
   auto_accept = "false"
+  }
 ```
 
 I have made many other [Terraform modules](https://github.com/SanchitBansal?tab=repositories&q=terraform&type=&language=) that are open source. Check them out!
